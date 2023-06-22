@@ -39,3 +39,24 @@ class CarsList(TemplateView):
         context = super().get_context_data(**kwargs)
         context["Cars"] = cars # this is where we add the key into our context object for the view to use
         return context
+    
+
+class ModelList(TemplateView):
+    template_name = "model_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["model"] = models
+        return context
+
+
+class Model:
+    def __init__(self, title, catalog):
+        self.title = title
+        self.catalog = catalog
+
+
+models = [
+    Model("Toyota Tundra", "4x4"),
+    Model("Ford F-150","4x4")
+]

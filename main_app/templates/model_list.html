@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% comment %} for head title tags and helping us with SEO {% endcomment %}
+{% block title %}Cars{% endblock  %}
+
+{% block content %}
+{% for model in models %}
+<h1>{{model.title}}</h1>
+{% empty %}
+<p>No models Available</p>
+{% endfor %}
+{% endblock %}
