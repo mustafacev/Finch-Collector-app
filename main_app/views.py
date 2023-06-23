@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
+# import models
+from .models import Cars
 # Create your views here.
 
 class Home(TemplateView):
@@ -37,9 +39,15 @@ class CarsList(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["Cars"] = cars # this is where we add the key into our context object for the view to use
+        # to get the query parameter we have to acccess it in the request.GET dictionary object        
+        name = self.request.GET.get("name")
+        # If a query exists we will filter by name 
+        if name != None:
+            # .filter is the sql WHERE statement and name__icontains is doing a search for any name that contains the query param
+            context["cars"] = Cars.objects.filter(name__icontains=name)
+        else:
+            context["cars"] = Cars.objects.all()
         return context
-    
 
 class ModelList(TemplateView):
     template_name = "model_list.html"
