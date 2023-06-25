@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView
 # import models
 from .models import Cars
 # Create your views here.
@@ -51,8 +52,12 @@ class CarsList(TemplateView):
         if name != None:
             # .filter is the sql WHERE statement and name__icontains is doing a search for any name that contains the query param
             context["Cars"] = Cars.objects.filter(name__icontains=name)
+            # We add a header context that includes the search param
+            context["header"] = f"Searching for {name}"
         else:
             context["Cars"] = Cars.objects.all()
+            # default header for not searching 
+            context["header"] = "Trending Cars"
         return context
 
 
@@ -65,13 +70,19 @@ class ModelList(TemplateView):
         return context
 
 
-class Model:
-    def __init__(self, title, catalog):
-        self.title = title
-        self.catalog = catalog
+# class Model:
+#     def __init__(self, title, catalog):
+#         self.title = title
+#         self.catalog = catalog
 
 
-models = [
-    Model("Toyota Tundra", "4x4"),
-    Model("Ford F-150", "4x4")
-]
+# models = [
+#     Model("Toyota Tundra", "4x4"),
+#     Model("Ford F-150", "4x4")
+# ]
+
+class CarCreate(CreateView):
+    model = Cars
+    fields = ['name', 'img', 'info', 'verified_cars']
+    template_name = "car_create.html"
+    success_url = "/cars/"
