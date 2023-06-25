@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic import DetailView
+from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # import models
 from .models import Cars
 # Create your views here.
@@ -91,3 +93,15 @@ class CarCreate(CreateView):
 class CarDetail(DetailView):
     model = Cars
     template_name = "car_detail.html"
+
+class CarUpdate(UpdateView):
+    model = Cars
+    fields = ['name', 'img', 'info', 'verified_cars']
+    template_name = "car_update.html"
+    success_url = "/cars/"
+
+
+class CarDelete(DeleteView):
+    model = Cars
+    template_name = "car_delete_confirmation.html"
+    success_url = "/cars/"
