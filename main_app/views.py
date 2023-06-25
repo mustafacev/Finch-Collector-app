@@ -3,6 +3,7 @@ from django.views import View
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
+from django.views.generic import DetailView
 # import models
 from .models import Cars
 # Create your views here.
@@ -86,3 +87,7 @@ class CarCreate(CreateView):
     fields = ['name', 'img', 'info', 'verified_cars']
     template_name = "car_create.html"
     success_url = "/cars/"
+
+class CarDetail(DetailView):
+    model = Cars
+    template_name = "car_detail.html"
