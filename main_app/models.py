@@ -16,3 +16,12 @@ class Cars(models.Model):
 
     class Meta:
         ordering = ['name']
+
+class Carmodel(models.Model):
+
+    carmodel = models.CharField(max_length=150)
+    accelerationtime = models.IntegerField(default=0)
+    cars = models.ForeignKey(Cars, on_delete=models.CASCADE, related_name="carmodel")
+
+    def __str__(self):
+        return self.carmodel

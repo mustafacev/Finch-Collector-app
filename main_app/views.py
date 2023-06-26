@@ -7,7 +7,8 @@ from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # import models
-from .models import Cars
+from .models import Cars,Carmodel
+from django.shortcuts import redirect
 # Create your views here.
 
 
@@ -64,13 +65,13 @@ class CarsList(TemplateView):
         return context
 
 
-class ModelList(TemplateView):
-    template_name = "model_list.html"
+# class ModelList(TemplateView):
+#     template_name = "model_list.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["model"] = models
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["models"] = models
+#         return context
 
 
 # class Model:
@@ -105,3 +106,12 @@ class CarDelete(DeleteView):
     model = Cars
     template_name = "car_delete_confirmation.html"
     success_url = "/cars/"
+
+class CarmodelCreate(View):
+
+    def post(self, request, pk):
+        carmodel = request.POST.get("carmodel")
+        accelerationtime = request.POST.get("accelerationtime")
+        carmodel = Cars.objects.get(pk=pk)
+        Carmodel.objects.create(carmodel=carmodel, accelerationtime=accelerationtime, cars=carmodel)
+        return redirect('car_detail', pk=pk)
