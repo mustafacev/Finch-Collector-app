@@ -1,4 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Car Home</h1>
+<div class="home__favoritecarmodel">
+    {% for favoritecarmodel in favoritecarmodel %}
+
+    <div class="modellist mb-5">
+        <h3 class="carmodel is-3 has-text-success">{{favoritecarmodel.model}}</h3>
+        <hr />
+
+        {% for carmodel in favoritecarmodel.carmodel.all %}
+
+        <div class="carmodel">
+            <span>{{forloop.counter}}</span>
+            <span><b>{{carmodel.carmodel}}</b></span>
+            <span>{{carmodel.accelerationtime}} <b>km/h</b></span>
+        </div>
+
+        {% endfor %}
+    </div>
+    {% empty %}
+    <div class="playlist mb-5">"There are no cars in this modelList"</div>
+    {% endfor %}
+</div>
 {% endblock %}

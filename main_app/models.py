@@ -25,3 +25,12 @@ class Carmodel(models.Model):
 
     def __str__(self):
         return self.carmodel
+
+class Favoritecarmodel(models.Model):
+
+    model = models.CharField(max_length=150)
+    # this is going to create the many to many relationship and join table
+    carmodel = models.ManyToManyField(Carmodel)
+
+    def __str__(self):
+        return self.model

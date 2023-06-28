@@ -7,13 +7,17 @@ from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # import models
-from .models import Cars,Carmodel
+from .models import Cars,Carmodel,Favoritecarmodel
 from django.shortcuts import redirect
 # Create your views here.
 
 
 class Home(TemplateView):
     template_name = "home.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["favoritecarmodel"] = Favoritecarmodel.objects.all()
+        return context
 
 
 class About(TemplateView):
