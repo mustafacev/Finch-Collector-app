@@ -98,6 +98,10 @@ class CarCreate(CreateView):
 class CarDetail(DetailView):
     model = Cars
     template_name = "car_detail.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["favoritecarmodel"] = Favoritecarmodel.objects.all()
+        return context
 
 class CarUpdate(UpdateView):
     model = Cars
@@ -119,3 +123,19 @@ class CarmodelCreate(View):
         carmodel = Cars.objects.get(pk=pk)
         Carmodel.objects.create(carmodel=carmodel, accelerationtime=accelerationtime, cars=carmodel)
         return redirect('car_detail', pk=pk)
+    
+
+class FavoritecarmodelCarmodelAssoc(View):
+
+    def get(self, request, pk, carmodel_pk):
+        # get the query param from the url
+        assoc = request.GET.get("assoc")
+        if assoc == "remove":
+            # get the favoritecarmodel by the id and
+            # remove from the join table the given song_id
+            Favoritecarmodel.objects.get(pk=pk).carmodel.remove(carmodel_pk)
+        if assoc == "add":
+            # get the playlist by the id and
+            # add to the join table the given song_id
+             Favoritecarmodel.objects.get(pk=pk).carmodel.add(carmodel_pk)
+        return redirect('home')
