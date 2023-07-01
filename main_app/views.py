@@ -7,7 +7,7 @@ from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # import models
-from .models import Cars,Carmodel,Favoritecarmodel
+from .models import CarBrand, CarModel, FavoriteCarsList
 from django.shortcuts import redirect
 # Create your views here.
 
@@ -16,7 +16,7 @@ class Home(TemplateView):
     template_name = "home.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["favoritecarmodel"] = Favoritecarmodel.objects.all()
+        context["favoritecarmodel"] = FavoriteCarsList.objects.all()
         return context
 
 
@@ -33,7 +33,7 @@ class About(TemplateView):
 #         self.bio = bio
 
 
-# cars = [
+# CarBrand = [
 #     Cars("Toyota Corolla", "https://toyota-cms-media.s3.amazonaws.com/wp-content/uploads/2022/10/2023-Corolla-Sedan_001H-1500x900.jpg",
 #          "Brand new car."),
 #     Cars("Honda Civic",
@@ -59,11 +59,11 @@ class CarsList(TemplateView):
         # If a query exists we will filter by name
         if name != None:
             # .filter is the sql WHERE statement and name__icontains is doing a search for any name that contains the query param
-            context["Cars"] = Cars.objects.filter(name__icontains=name)
+            context["Cars"] = CarBrand.objects.filter(name__icontains=name)
             # We add a header context that includes the search param
             context["header"] = f"Searching for {name}"
         else:
-            context["Cars"] = Cars.objects.all()
+            context["Cars"] = CarBrand.objects.all()
             # default header for not searching 
             context["header"] = "Trending Cars"
         return context
@@ -90,52 +90,52 @@ class CarsList(TemplateView):
 # ]
 
 class CarCreate(CreateView):
-    model = Cars
-    fields = ['name', 'img', 'info', 'verified_cars']
+    model = CarBrand
+    fields = ['name', 'img', 'info', 'verified_car']
     template_name = "car_create.html"
     success_url = "/cars/"
 
 class CarDetail(DetailView):
-    model = Cars
+    model = CarBrand
     template_name = "car_detail.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["favoritecarmodel"] = Favoritecarmodel.objects.all()
+        context["favorite_cars_lists"] = FavoriteCarsList.objects.all()
         return context
 
 class CarUpdate(UpdateView):
-    model = Cars
-    fields = ['name', 'img', 'info', 'verified_cars']
+    model = CarBrand
+    fields = ['name', 'img', 'info', 'verified_car']
     template_name = "car_update.html"
     success_url = "/cars/"
 
 
 class CarDelete(DeleteView):
-    model = Cars
+    model = CarBrand
     template_name = "car_delete_confirmation.html"
     success_url = "/cars/"
 
-class CarmodelCreate(View):
+class CarModelCreate(View):
 
     def post(self, request, pk):
-        carmodel = request.POST.get("carmodel")
-        accelerationtime = request.POST.get("accelerationtime")
-        carmodel = Cars.objects.get(pk=pk)
-        Carmodel.objects.create(carmodel=carmodel, accelerationtime=accelerationtime, cars=carmodel)
+        name = request.POST.get("name")
+        acceleration_time = request.POST.get("acceleration_time")
+        car_brand = CarBrand.objects.get(pk=pk)
+        CarModel.objects.create(name=name, acceleration_time=acceleration_time, car_brand=car_brand)
         return redirect('car_detail', pk=pk)
     
 
-class FavoritecarmodelCarmodelAssoc(View):
+class FavoriteCarsListCarModelAssoc(View):
 
-    def get(self, request, pk, carmodel_pk):
+    def get(self, request, pk, car_model_pk):
         # get the query param from the url
         assoc = request.GET.get("assoc")
         if assoc == "remove":
             # get the favoritecarmodel by the id and
             # remove from the join table the given song_id
-            Favoritecarmodel.objects.get(pk=pk).carmodel.remove(carmodel_pk)
+            FavoriteCarsList.objects.get(pk=pk).car_model.remove(car_model_pk)
         if assoc == "add":
             # get the playlist by the id and
             # add to the join table the given song_id
-             Favoritecarmodel.objects.get(pk=pk).carmodel.add(carmodel_pk)
+             FavoriteCarsList.objects.get(pk=pk).car_model.add(car_model_pk)
         return redirect('home')

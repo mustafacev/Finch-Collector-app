@@ -28,5 +28,5 @@ INSERT INTO main_app_cars(name, img, bio, verified_cars, created_at)
 
 INSERT INTO main_app_cars(name, img, bio, verified_cars, created_at)
   VALUES
-    ('Metallica','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSooXDY745RR9Mj8hUqzH0_HWPJ4ZwbYo4ll_ucN7lVpqEMogOBKG3AH6_hPwm8ILXdoik&usqp=CAU','Metallica formed in 1981 by drummer Lars Ulrich and guitarist and vocalist James Hetfield and has become one of the most influential and commercially successful rock bands in history, having sold 110 million albums worldwide while playing to millions of fans on literally all seven continents.','t','2021-05-07 18:57:42.517205-07');
+    ('Bugatti ','https://hips.hearstapps.com/hmg-prod/images/2023-bentley-continental-gt-s-coupe-101-1654526518.jpg?crop=0.767xw:0.648xh;0.0651xw,0.220xh&resize=1200:*','Gorgeous exterior, sumptuous cabin environs, power and handling entertain without upsetting your inner sybarrite.','2021-05-07 18:57:42.517205-07');
 

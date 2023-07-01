@@ -11,6 +11,6 @@ urlpatterns = [
  path('cars/<int:pk>/', views.CarDetail.as_view(), name="car_detail"),
  path('cars/<int:pk>/update/',views.CarUpdate.as_view(), name="car_update"),
  path('cars/<int:pk>/delete',views.CarDelete.as_view(), name="car_delete"),
- path('cars/<int:pk>/carmodel/new/', views.CarmodelCreate.as_view(), name="carmodel_create"),
- path('favoritecarmodel/<int:pk>/carmodel/<int:carmodel_pk>/', views.FavoritecarmodelCarmodelAssoc.as_view(), name="favoritecarmodel_carmodel_assoc"),
+ path('cars/<int:pk>/carmodel/new/', views.CarModelCreate.as_view(), name="car_model_create"),
+ path('favoritecarmodel/<int:pk>/carmodel/<int:carmodel_pk>/', views.FavoriteCarsListCarModelAssoc.as_view(), name="favorite_cars_list_car_model_assoc"),
 ]

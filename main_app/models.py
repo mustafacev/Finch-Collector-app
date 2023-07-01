@@ -3,12 +3,12 @@ from django.db import models
 # Create your models here.
 
 
-class Cars(models.Model):
+class CarBrand(models.Model):
 
     name = models.CharField(max_length=100)
     img = models.CharField(max_length=250)
     info = models.TextField(max_length=500, default='info')
-    verified_cars = models.BooleanField(default=False)
+    verified_car = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -17,20 +17,20 @@ class Cars(models.Model):
     class Meta:
         ordering = ['name']
 
-class Carmodel(models.Model):
+class CarModel(models.Model):
 
-    carmodel = models.CharField(max_length=150)
-    accelerationtime = models.IntegerField(default=0)
-    cars = models.ForeignKey(Cars, on_delete=models.CASCADE, related_name="carmodel")
+    name = models.CharField(max_length=150)
+    acceleration_time = models.IntegerField(default=0)
+    car_brand = models.ForeignKey(CarBrand, on_delete=models.CASCADE, related_name="car_model")
 
     def __str__(self):
-        return self.carmodel
+        return self.name
 
-class Favoritecarmodel(models.Model):
+class FavoriteCarsList(models.Model):
 
-    model = models.CharField(max_length=150)
+    name = models.CharField(max_length=150)
     # this is going to create the many to many relationship and join table
-    carmodel = models.ManyToManyField(Carmodel)
+    car_model = models.ManyToManyField(CarModel)
 
     def __str__(self):
-        return self.model
+        return self.name

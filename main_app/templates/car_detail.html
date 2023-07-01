@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="detail__img">
-    <img src="{{cars.img}}" alt="{{cars.name}}" />
+    <img src="{{carbrand.img}}" alt="{{carbrand.name}}" />
 </div>
 <div class="detail__name">
-    {% if cars.verified_cars %}
+    {% if carbrand.verified_car %}
     <div class="icon-text">
         <span class="icon has-text-info">
             <i class="fas fa-check-circle"></i>
@@ -12,53 +12,53 @@
         <span>Verified</span>
     </div>
     {% endif %}
-    <h1 class="title">{{cars.name}}</h1>
+    <h1 class="title">{{carbrand.name}}</h1>
 </div>
 <div class="detail__container">
     <div class="detail__carmodel mb-5">
         <h3 class="title is-3">Car Models</h3>
-        <form class="mb-5" action="{% url 'carmodel_create' cars.pk %}" method="post">
+        <form class="mb-5" action="{% url 'car_model_create' carbrand.pk %}" method="post">
             {% csrf_token %}
             <div class="field has-addons">
                 <div class="control">
-                    <input class="input" type="text" name="carmodel" placeholder="carmodel" required />
+                    <input class="input" type="text" name="name" placeholder="Model name" required />
                 </div>
                 <div class="control">
-                    <input class="input" type="number" name="accelerationtime" placeholder="accelerationtime in Km/h" min="1" required />
+                    <input class="input" type="number" name="acceleration_time" placeholder="Acceleration time in Km/h"
+                        min="1" required />
                 </div>
                 <div class="control">
                     <input class="button is-primary" type="submit" value="Add Car Model Trim and 0-100 km/h" />
                 </div>
             </div>
         </form>
-        {% for carmodel in cars.carmodel.all %}
+        {% for car_model in carbrand.car_model.all %}
         <div class="carmodel">
             <span>{{forloop.counter}}</span>
-            <span><b>{{carmodel.carmodel}}</b></span>
-            <span>{{carmodel.accelerationtime}} <b>km/h</b></span>
-        </div>
-        <span>
-            <div class="dropdown">
-                <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                        <span>Add to  Car Model</span>
-                        <span class="icon is-small">
-                            <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                    </button>
-                </div>
-                <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div class="dropdown-content">
-                        {% for carmodel in favoritecarmodel.carmodel.all %}
-                            <a href="{% url 'favoritecarmodel_carmodel_assoc' favoritecarmodel.pk carmodel.pk %}?assoc=add"
-                               class="dropdown-item">{{ favoritecarmodel.carmodel }}</a>
-                        {% endfor %}
+            <span><b>{{car_model.name}}</b></span>
+            <span>{{car_model.acceleration_time}} <b>km/h</b></span>
+            <span>
+                <div class="dropdown">
+                    <div class="dropdown-trigger">
+                        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                            <span>Add to Favorite Cars list </span>
+                            <span class="icon is-small">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                        <div class="dropdown-content">
+                            {% for fav_list in favorite_cars_lists %}
+                            <a href="{% url 'favorite_cars_list_car_model_assoc' fav_list.pk car_model.pk %}?assoc=add"
+                                class="dropdown-item">{{ fav_list.name }}</a>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
-            </div>
-        </span>
+            </span>
+        </div>
         <!-- Inside song div -->
-    </div>
         {% empty %}
         <article class="message">
             <div class="message-header">
@@ -68,20 +68,22 @@
 
         {% endfor %}
     </div>
-    <a href="{% url 'car_update' cars.pk %}" class="button is-info">
-        <span class="icon">
-            <i class="fas fa-edit"></i>
-        </span>
-    </a>
-    <a href="{% url 'car_delete' cars.pk %}" class="button is-danger">
-        <span class="icon">
-            <i class="fas fa-trash-alt"></i>
-        </span>
-    </a>
-</div>
-<div class="detail__about">
-    <h4 class="title is-4">About</h4>
-    <p>{{cars.info}}</p>
+    <div class='buttons'>
+        <a href="{% url 'car_update' carbrand.pk %}" class="button is-info">
+            <span class="icon">
+                <i class="fas fa-edit"></i>
+            </span>
+        </a>
+        <a href="{% url 'car_delete' carbrand.pk %}" class="button is-danger">
+            <span class="icon">
+                <i class="fas fa-trash-alt"></i>
+            </span>
+        </a>
+    </div>
+    <div class="detail__about">
+        <h4 class="title is-4">About</h4>
+        <p>{{carbrand.info}}</p>
+    </div>
 </div>
 </div>
 
